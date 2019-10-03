@@ -18,12 +18,12 @@ import java.util.Objects;
  */
 public class FourTowersFunctions {
 
-    public static Problem<FourTowersBoard, QueenAction> createIncrementalFormulationProblem(int boardSize) {
+    public static Problem<FourTowersBoard, TowerAction> createIncrementalFormulationProblem(int boardSize) {
         return new GeneralProblem<>(new FourTowersBoard(boardSize), FourTowersFunctions::getIFActions,
                 FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
     }
 
-    public static Problem<FourTowersBoard, QueenAction> createCompleteStateFormulationProblem
+    public static Problem<FourTowersBoard, TowerAction> createCompleteStateFormulationProblem
             (int boardSize, FourTowersBoard.Config config) {
         return new GeneralProblem<>(new FourTowersBoard(boardSize, config), FourTowersFunctions::getCSFActions,
                 FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
@@ -37,15 +37,15 @@ public class FourTowersFunctions {
      * board, and provides queen placing actions for all non-attacked positions
      * of the first free column.
      */
-    public static List<QueenAction> getIFActions(FourTowersBoard state) {
-        List<QueenAction> actions = new ArrayList<>();
+    public static List<TowerAction> getIFActions(FourTowersBoard state) {
+        List<TowerAction> actions = new ArrayList<>();
 
         int numQueens = state.getNumberOfQueensOnBoard();
         int boardSize = state.getSize();
         for (int i = 0; i < boardSize; i++) {
             XYLocation newLocation = new XYLocation(numQueens, i);
             if (!(state.isSquareUnderAttack(newLocation)))
-                actions.add(new QueenAction(QueenAction.PLACE_QUEEN, newLocation));
+                actions.add(new TowerAction(TowerAction.PLACE_QUEEN, newLocation));
         }
         return actions;
     }
@@ -57,13 +57,13 @@ public class FourTowersFunctions {
      * Assumes exactly one queen in each column and provides all possible queen
      * movements in vertical direction as actions.
      */
-    public static List<QueenAction> getCSFActions(FourTowersBoard state) {
-        List<QueenAction> actions = new ArrayList<>();
+    public static List<TowerAction> getCSFActions(FourTowersBoard state) {
+        List<TowerAction> actions = new ArrayList<>();
         for (int i = 0; i < state.getSize(); i++)
             for (int j = 0; j < state.getSize(); j++) {
                 XYLocation loc = new XYLocation(i, j);
                 if (!state.towerExistsAt(loc))
-                    actions.add(new QueenAction(QueenAction.MOVE_QUEEN, loc));
+                    actions.add(new TowerAction(TowerAction.MOVE_QUEEN, loc));
             }
         return actions;
     }
@@ -72,14 +72,14 @@ public class FourTowersFunctions {
      * Implements a RESULT function for the n-queens problem.
      * Supports queen placing, queen removal, and queen movement actions.
      */
-    public static FourTowersBoard getResult(FourTowersBoard state, QueenAction action) {
+    public static FourTowersBoard getResult(FourTowersBoard state, TowerAction action) {
         FourTowersBoard result = new FourTowersBoard(state.getSize());
         result.setQueensAt(state.getTowerPositions());
-        if (Objects.equals(action.getName(), QueenAction.PLACE_QUEEN))
+        if (Objects.equals(action.getName(), TowerAction.PLACE_QUEEN))
             result.addTowerAt(action.getLocation());
-        else if (Objects.equals(action.getName(), QueenAction.REMOVE_QUEEN))
+        else if (Objects.equals(action.getName(), TowerAction.REMOVE_QUEEN))
             result.removeQueenFrom(action.getLocation());
-        else if (Objects.equals(action.getName(), QueenAction.MOVE_QUEEN))
+        else if (Objects.equals(action.getName(), TowerAction.MOVE_QUEEN))
             result.moveQueenTo(action.getLocation());
         // if action is not understood or is a NoOp
         // the result will be the current state.
@@ -97,7 +97,7 @@ public class FourTowersFunctions {
      * Estimates the distance to goal by the number of attacking pairs of queens on
      * the board.
      */
-    public static double getNumberOfAttackingPairs(Node<FourTowersBoard, QueenAction> node) {
+    public static double getNumberOfAttackingPairs(Node<FourTowersBoard, TowerAction> node) {
         return node.getState().getNumberOfAttackingPairs();
     }
 }

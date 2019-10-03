@@ -11,6 +11,7 @@ import aima.gui.demo.logic.PlResolutionDemo;
 import aima.gui.demo.logic.TTEntailsDemo;
 import aima.gui.demo.logic.WalkSatDemo;
 import aima.gui.demo.search.EightPuzzleDemo;
+import aima.gui.demo.search.FourTowersDemo;
 import aima.gui.demo.search.MapColoringCspDemo;
 import aima.gui.demo.search.NQueensDemo;
 import aima.gui.demo.search.TicTacToeDemo;
@@ -92,6 +93,9 @@ public class IntegratedAimaFxApp extends Application {
 		builder.registerDemo(DpllDemo.class);
 		builder.registerDemo(WalkSatDemo.class);
 		builder.registerDemo(FolDemo.class);
+		
+		// Four towers
+		builder.registerDemo(FourTowersDemo.class);
 
 		// builder.registerDemo(ProbabilityProg.class); // to slow.
 		// builder.registerDemo(LearningProg.class); // to slow.

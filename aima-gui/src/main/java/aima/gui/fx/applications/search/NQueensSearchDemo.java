@@ -4,7 +4,7 @@ import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersBoard.Config;
 import aima.core.environment.nqueens.FourTowersFunctions;
 import aima.core.environment.nqueens.NQueensGenAlgoUtil;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.framework.Metrics;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
@@ -31,7 +31,7 @@ public class NQueensSearchDemo {
 
 	private static Random random = new Random();
 	private GeneticAlgorithm<Integer> genAlgo;
-	private SearchForActions<FourTowersBoard, QueenAction> search;
+	private SearchForActions<FourTowersBoard, TowerAction> search;
 	private FourTowersBoard board;
 	private List<ProgressTracker> progressTracers = new ArrayList<>();
 
@@ -46,13 +46,13 @@ public class NQueensSearchDemo {
 		demo.printResult();
 
 		System.out.println("NQueens hill climbing search experiment (boardSize=" + demo.boardSize + ") -->");
-		demo.initExperiment(Config.QUEENS_IN_FIRST_ROW);
+		demo.initExperiment(Config.TOWERS_IN_FIRST_ROW);
 		demo.startHillClimbingExperiment();
 		demo.printResult();
 
 		System.out.println("NQueens simulated annealing experiment (boardSize=" + demo.boardSize + ", maxIterations="
 				+ demo.maxIterations + ") -->");
-		demo.initExperiment(Config.QUEENS_IN_FIRST_ROW);
+		demo.initExperiment(Config.TOWERS_IN_FIRST_ROW);
 		demo.startSimulatedAnnealingExperiment();
 		demo.printResult();
 
@@ -78,20 +78,20 @@ public class NQueensSearchDemo {
 		search = null;
 	}
 
-	public void startExperiment(SearchForActions<FourTowersBoard, QueenAction> search) {
+	public void startExperiment(SearchForActions<FourTowersBoard, TowerAction> search) {
 
 		search.addNodeListener(n -> notifyProgressTrackers(n.getState(), search.getMetrics()));
 
-		Problem<FourTowersBoard, QueenAction> problem;
+		Problem<FourTowersBoard, TowerAction> problem;
 		if (board.getNumberOfQueensOnBoard() == 0)
 			problem = new GeneralProblem<>(board, FourTowersFunctions::getIFActions,
 					FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
 		else
 			problem = new GeneralProblem<>(board, FourTowersFunctions::getCSFActions,
 					FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 		if (actions.isPresent())
-			for (QueenAction action : actions.get())
+			for (TowerAction action : actions.get())
 				board = FourTowersFunctions.getResult(board, action);
 
 		notifyProgressTrackers(board, search.getMetrics());
@@ -99,7 +99,7 @@ public class NQueensSearchDemo {
 
 	public void startHillClimbingExperiment() {
 		// board = new NQueensBoard(boardSize, Config.QUEEN_IN_EVERY_COL);
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(board, FourTowersFunctions::getCSFActions,
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(board, FourTowersFunctions::getCSFActions,
 				FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
 		search = new HillClimbingSearch<>(n -> -FourTowersFunctions.getNumberOfAttackingPairs(n));
 		search.addNodeListener(n -> notifyProgressTrackers(n.getState(), search.getMetrics()));
@@ -110,7 +110,7 @@ public class NQueensSearchDemo {
 	}
 
 	public void startSimulatedAnnealingExperiment() {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(board, FourTowersFunctions::getCSFActions,
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(board, FourTowersFunctions::getCSFActions,
 				FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
 		Scheduler scheduler = new Scheduler(k, lambda, maxIterations);
 		search = new SimulatedAnnealingSearch<>(FourTowersFunctions::getNumberOfAttackingPairs, scheduler);

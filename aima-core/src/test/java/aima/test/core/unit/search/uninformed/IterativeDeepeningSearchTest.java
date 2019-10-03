@@ -2,7 +2,7 @@ package aima.test.core.unit.search.uninformed;
 
 import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersFunctions;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
 import aima.core.search.framework.problem.Problem;
@@ -18,10 +18,10 @@ public class IterativeDeepeningSearchTest {
 	@Test
 	public void testIterativeDeepeningSearch() {
 		try {
-			Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
+			Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
 					FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-			SearchForActions<FourTowersBoard, QueenAction> search = new IterativeDeepeningSearch<>();
-			Optional<List<QueenAction>> actions = search.findActions(problem);
+			SearchForActions<FourTowersBoard, TowerAction> search = new IterativeDeepeningSearch<>();
+			Optional<List<TowerAction>> actions = search.findActions(problem);
 			Assert.assertTrue(actions.isPresent());
 			assertCorrectPlacement(actions.get());
 			Assert.assertEquals("3656", search.getMetrics().get("nodesExpanded"));
@@ -32,7 +32,7 @@ public class IterativeDeepeningSearchTest {
 		}
 	}
 
-	private void assertCorrectPlacement(List<QueenAction> actions) {
+	private void assertCorrectPlacement(List<TowerAction> actions) {
 		Assert.assertEquals(8, actions.size());
 		Assert.assertEquals("Action[name=placeQueenAt, location=(0, 0)]", actions.get(0).toString());
 		Assert.assertEquals("Action[name=placeQueenAt, location=(1, 4)]", actions.get(1).toString());

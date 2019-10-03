@@ -6,7 +6,7 @@ import aima.core.agent.Percept;
 import aima.core.agent.impl.AbstractEnvironment;
 import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersFunctions;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.agent.SearchAgent;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
@@ -41,15 +41,15 @@ import java.util.function.Function;
  * 
  * @author Ruediger Lunde
  */
-public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
+public class NQueensApp extends SimpleAgentApp<Percept, TowerAction> {
 
 	/** List of supported search algorithm names. */
 	protected static List<String> SEARCH_NAMES = new ArrayList<>();
 	/** List of supported search algorithms. */
-	protected static List<SearchForActions<FourTowersBoard, QueenAction>> SEARCH_ALGOS = new ArrayList<>();
+	protected static List<SearchForActions<FourTowersBoard, TowerAction>> SEARCH_ALGOS = new ArrayList<>();
 
 	/** Adds a new item to the list of supported search algorithms. */
-	public static void addSearchAlgorithm(String name, SearchForActions<FourTowersBoard, QueenAction> algo) {
+	public static void addSearchAlgorithm(String name, SearchForActions<FourTowersBoard, TowerAction> algo) {
 		SEARCH_NAMES.add(name);
 		SEARCH_ALGOS.add(algo);
 	}
@@ -73,19 +73,19 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 	}
 
 	/** Returns a <code>NQueensView</code> instance. */
-	public AgentAppEnvironmentView<Percept, QueenAction> createEnvironmentView() {
+	public AgentAppEnvironmentView<Percept, TowerAction> createEnvironmentView() {
 		return new NQueensView();
 	}
 
 	/** Returns a <code>NQueensFrame</code> instance. */
 	@Override
-	public AgentAppFrame<Percept, QueenAction> createFrame() {
+	public AgentAppFrame<Percept, TowerAction> createFrame() {
 		return new NQueensFrame();
 	}
 
 	/** Returns a <code>NQueensController</code> instance. */
 	@Override
-	public AgentAppController<Percept, QueenAction> createController() {
+	public AgentAppController<Percept, TowerAction> createController() {
 		return new NQueensController();
 	}
 
@@ -105,7 +105,7 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 	/**
 	 * Adds some selectors to the base class and adjusts its size.
 	 */
-	protected static class NQueensFrame extends AgentAppFrame<Percept, QueenAction> {
+	protected static class NQueensFrame extends AgentAppFrame<Percept, TowerAction> {
 		private static final long serialVersionUID = 1L;
 		public static String ENV_SEL = "EnvSelection";
 		public static String PROBLEM_SEL = "ProblemSelection";
@@ -127,7 +127,7 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 	 * Displays the informations provided by a <code>NQueensEnvironment</code>
 	 * on a panel.
 	 */
-	protected static class NQueensView extends AgentAppEnvironmentView<Percept, QueenAction> implements ActionListener {
+	protected static class NQueensView extends AgentAppEnvironmentView<Percept, TowerAction> implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		protected JButton[] squareButtons;
 		protected int currSize = -1;
@@ -136,7 +136,7 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 		}
 
 		@Override
-		public void setEnvironment(Environment<? extends Percept, ? extends QueenAction> env) {
+		public void setEnvironment(Environment<? extends Percept, ? extends TowerAction> env) {
 			super.setEnvironment(env);
 			showState();
 		}
@@ -148,7 +148,7 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 
 		/** Agent value null indicates a user initiated action. */
 		@Override
-		public void agentActed(Agent<?, ?> agent, Percept percept, QueenAction action, Environment<?, ?> source) {
+		public void agentActed(Agent<?, ?> agent, Percept percept, TowerAction action, Environment<?, ?> source) {
 			showState();
 			notify((agent == null ? "User: " : "") + action.toString());
 		}
@@ -204,10 +204,10 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 	/**
 	 * Defines how to react on standard simulation button events.
 	 */
-	protected static class NQueensController extends AgentAppController<Percept, QueenAction> {
+	protected static class NQueensController extends AgentAppController<Percept, TowerAction> {
 
 		protected NQueensEnvironment env = null;
-		protected SearchAgent<Percept, FourTowersBoard, QueenAction> agent = null;
+		protected SearchAgent<Percept, FourTowersBoard, TowerAction> agent = null;
 		protected boolean boardDirty;
 
 		/** Prepares next simulation. */
@@ -258,14 +258,14 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 			if (agent == null) {
 				int pSel = frame.getSelection().getIndex(NQueensFrame.PROBLEM_SEL);
 				int sSel = frame.getSelection().getIndex(NQueensFrame.SEARCH_SEL);
-				Function<FourTowersBoard, List<QueenAction>> actionsFn;
+				Function<FourTowersBoard, List<TowerAction>> actionsFn;
 				if (pSel == 0)
 					actionsFn = FourTowersFunctions::getIFActions;
 				else
 					actionsFn = FourTowersFunctions::getCSFActions;
-				Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(env.getBoard(),
+				Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(env.getBoard(),
 						actionsFn, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-				SearchForActions<FourTowersBoard, QueenAction> search = SEARCH_ALGOS.get(sSel);
+				SearchForActions<FourTowersBoard, TowerAction> search = SEARCH_ALGOS.get(sSel);
 				agent = new SearchAgent<>(problem, search);
 				env.addAgent(agent);
 			}
@@ -336,17 +336,17 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 			boardDirty = true;
 			String atype;
 			if (env.getBoard().towerExistsAt(loc))
-				atype = QueenAction.REMOVE_QUEEN;
+				atype = TowerAction.REMOVE_QUEEN;
 			else
-				atype = QueenAction.PLACE_QUEEN;
-			env.execute(null, new QueenAction(atype, loc));
+				atype = TowerAction.PLACE_QUEEN;
+			env.execute(null, new TowerAction(atype, loc));
 			agent = null;
 			frame.updateEnabledState();
 		}
 	}
 
 	/** Simple environment maintaining just the current board state. */
-	public static class NQueensEnvironment extends AbstractEnvironment<Percept, QueenAction> {
+	public static class NQueensEnvironment extends AbstractEnvironment<Percept, TowerAction> {
 		FourTowersBoard board;
 
 		public NQueensEnvironment(FourTowersBoard board) {
@@ -361,13 +361,13 @@ public class NQueensApp extends SimpleAgentApp<Percept, QueenAction> {
 		 * Executes the provided action and returns null.
 		 */
 		@Override
-		public void execute(Agent<?, ?> agent, QueenAction action) {
+		public void execute(Agent<?, ?> agent, TowerAction action) {
 			XYLocation loc = new XYLocation(action.getX(), action.getY());
-			if (action.getName() == QueenAction.PLACE_QUEEN)
+			if (action.getName() == TowerAction.PLACE_QUEEN)
 				board.addTowerAt(loc);
-			else if (action.getName() == QueenAction.REMOVE_QUEEN)
+			else if (action.getName() == TowerAction.REMOVE_QUEEN)
 				board.removeQueenFrom(loc);
-			else if (action.getName() == QueenAction.MOVE_QUEEN)
+			else if (action.getName() == TowerAction.MOVE_QUEEN)
 				board.moveQueenTo(loc);
 		}
 

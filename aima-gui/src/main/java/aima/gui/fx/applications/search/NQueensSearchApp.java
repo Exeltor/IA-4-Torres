@@ -108,7 +108,7 @@ public class NQueensSearchApp extends IntegrableApplication {
 		else if (taskPaneCtrl.getParamValue(PARAM_INIT_CONFIG).equals("Random"))
 			config = Config.QUEEN_IN_EVERY_COL;
 		else
-			config = Config.QUEENS_IN_FIRST_ROW;
+			config = Config.TOWERS_IN_FIRST_ROW;
 		experiment.initExperiment(config);
 		stateViewCtrl.update(experiment.getBoard());
 	}

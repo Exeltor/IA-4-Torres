@@ -4,7 +4,7 @@ import aima.core.agent.Action;
 import aima.core.environment.map.*;
 import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersFunctions;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.agent.SearchAgent;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
@@ -26,12 +26,12 @@ public class UniformCostSearchTest {
 
 	@Test
 	public void testUniformCostSuccesfulSearch() throws Exception {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
 				FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		SearchForActions<FourTowersBoard, QueenAction> search = new UniformCostSearch<>();
-		SearchAgent<Object, FourTowersBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+		SearchForActions<FourTowersBoard, TowerAction> search = new UniformCostSearch<>();
+		SearchAgent<Object, FourTowersBoard, TowerAction> agent = new SearchAgent<>(problem, search);
 
-		List<QueenAction> actions = agent.getActions();
+		List<TowerAction> actions = agent.getActions();
 
 		Assert.assertEquals(8, actions.size());
 
@@ -42,12 +42,12 @@ public class UniformCostSearchTest {
 
 	@Test
 	public void testUniformCostUnSuccesfulSearch() throws Exception {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(3),
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(3),
 				FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		SearchForActions<FourTowersBoard, QueenAction> search = new UniformCostSearch<>();
-		SearchAgent<Object, FourTowersBoard, QueenAction> agent = new SearchAgent<>(problem, search);
+		SearchForActions<FourTowersBoard, TowerAction> search = new UniformCostSearch<>();
+		SearchAgent<Object, FourTowersBoard, TowerAction> agent = new SearchAgent<>(problem, search);
 
-		List<QueenAction> actions = agent.getActions();
+		List<TowerAction> actions = agent.getActions();
 
 		Assert.assertEquals(0, actions.size());
 

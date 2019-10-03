@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import aima.core.environment.nqueens.FourTowersFunctions;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.util.datastructure.XYLocation;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,8 +21,8 @@ import aima.core.environment.nqueens.FourTowersBoard;
  * @author Ruediger Lunde
  */
 public class NQueensFunctionsTest {
-	private Function<FourTowersBoard, List<QueenAction>> actionsFn;
-	private BiFunction<FourTowersBoard, QueenAction, FourTowersBoard> resultFn;
+	private Function<FourTowersBoard, List<TowerAction>> actionsFn;
+	private BiFunction<FourTowersBoard, TowerAction, FourTowersBoard> resultFn;
 	private Predicate<FourTowersBoard> goalTest;
 
 	private FourTowersBoard oneBoard;
@@ -43,7 +43,7 @@ public class NQueensFunctionsTest {
 
 	@Test
 	public void testSimpleBoardSuccessorGenerator() {
-		List<QueenAction> actions = new ArrayList<>(actionsFn.apply(oneBoard));
+		List<TowerAction> actions = new ArrayList<>(actionsFn.apply(oneBoard));
 		Assert.assertEquals(1, actions.size());
 		FourTowersBoard next = resultFn.apply(oneBoard, actions.get(0));
 		Assert.assertEquals(1, next.getNumberOfQueensOnBoard());
@@ -51,7 +51,7 @@ public class NQueensFunctionsTest {
 
 	@Test
 	public void testComplexBoardSuccessorGenerator() {
-		List<QueenAction> actions = new ArrayList<>(actionsFn.apply(eightBoard));
+		List<TowerAction> actions = new ArrayList<>(actionsFn.apply(eightBoard));
 		Assert.assertEquals(8, actions.size());
 		FourTowersBoard next = resultFn.apply(eightBoard, actions.get(0));
 		Assert.assertEquals(1, next.getNumberOfQueensOnBoard());

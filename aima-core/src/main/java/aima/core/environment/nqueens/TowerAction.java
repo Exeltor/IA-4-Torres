@@ -10,7 +10,7 @@ import aima.core.util.datastructure.XYLocation;
  * @author Ravi Mohan
  * @author Ruediger Lunde
  */
-public class QueenAction extends DynamicAction {
+public class TowerAction extends DynamicAction {
 	public static final String PLACE_QUEEN = "placeQueenAt";
 	public static final String REMOVE_QUEEN = "removeQueenAt";
 	public static final String MOVE_QUEEN = "moveQueenTo";
@@ -21,7 +21,7 @@ public class QueenAction extends DynamicAction {
 	 * Creates a queen action. Supported values of type are {@link #PLACE_QUEEN}
 	 * , {@link #REMOVE_QUEEN}, or {@link #MOVE_QUEEN}.
 	 */
-	public QueenAction(String type, XYLocation loc) {
+	public TowerAction(String type, XYLocation loc) {
 		super(type);
 		setAttribute(ATTRIBUTE_QUEEN_LOC, loc);
 	}

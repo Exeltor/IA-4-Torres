@@ -2,7 +2,7 @@ package aima.test.core.unit.search.uninformed;
 
 import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersFunctions;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.framework.Node;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.GeneralProblem;
@@ -22,10 +22,10 @@ public class DepthLimitedSearchTest {
 
 	@Test
 	public void testSuccessfulDepthLimitedSearch() throws Exception {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
 				FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		SearchForActions<FourTowersBoard, QueenAction> search = new DepthLimitedSearch<>(8);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		SearchForActions<FourTowersBoard, TowerAction> search = new DepthLimitedSearch<>(8);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 		Assert.assertTrue(actions.isPresent());
 		assertCorrectPlacement(actions.get());
 		Assert.assertEquals("113", search.getMetrics().get("nodesExpanded"));
@@ -33,26 +33,26 @@ public class DepthLimitedSearchTest {
 
 	@Test
 	public void testCutOff() throws Exception {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(8),
 				FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		DepthLimitedSearch<FourTowersBoard, QueenAction> search = new DepthLimitedSearch<>(1);
-		Optional<Node<FourTowersBoard, QueenAction>> result = search.findNode(problem);
+		DepthLimitedSearch<FourTowersBoard, TowerAction> search = new DepthLimitedSearch<>(1);
+		Optional<Node<FourTowersBoard, TowerAction>> result = search.findNode(problem);
 		Assert.assertEquals(true, search.isCutoffResult(result));
 	}
 
 	@Test
 	public void testFailure() throws Exception {
-		Problem<FourTowersBoard, QueenAction> problem = new GeneralProblem<>(new FourTowersBoard(3),
+		Problem<FourTowersBoard, TowerAction> problem = new GeneralProblem<>(new FourTowersBoard(3),
 				FourTowersFunctions::getIFActions, FourTowersFunctions::getResult, FourTowersFunctions::testGoal);
-		DepthLimitedSearch<FourTowersBoard, QueenAction> search = new DepthLimitedSearch<>(5);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		DepthLimitedSearch<FourTowersBoard, TowerAction> search = new DepthLimitedSearch<>(5);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 		Assert.assertFalse(actions.isPresent()); // failure
 	}
 
 	//
 	// PRIVATE METHODS
 	//
-	private void assertCorrectPlacement(List<QueenAction> actions) {
+	private void assertCorrectPlacement(List<TowerAction> actions) {
 		Assert.assertEquals(8, actions.size());
 		Assert.assertEquals("Action[name=placeQueenAt, location=(0, 0)]", actions.get(0).toString());
 		Assert.assertEquals("Action[name=placeQueenAt, location=(1, 4)]", actions.get(1).toString());

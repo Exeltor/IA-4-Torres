@@ -17,7 +17,7 @@ public class FourTowersBoard {
 
 	/** Parameters for initialization. */
 	public enum Config {
-		EMPTY, QUEENS_IN_FIRST_ROW, QUEEN_IN_EVERY_COL
+		EMPTY, TOWERS_IN_FIRST_ROW, QUEEN_IN_EVERY_COL
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class FourTowersBoard {
 	 */
 	public FourTowersBoard(int size, Config config) {
 		this(size);
-		if (config == Config.QUEENS_IN_FIRST_ROW) {
+		if (config == Config.TOWERS_IN_FIRST_ROW) {
 			for (int col = 0; col < size; col++)
 				addTowerAt(new XYLocation(col, 0));
 		} else if (config == Config.QUEEN_IN_EVERY_COL) {

@@ -4,7 +4,7 @@ import aima.core.environment.nqueens.FourTowersBoard;
 import aima.core.environment.nqueens.FourTowersBoard.Config;
 import aima.core.environment.nqueens.FourTowersFunctions;
 import aima.core.environment.nqueens.NQueensGenAlgoUtil;
-import aima.core.environment.nqueens.QueenAction;
+import aima.core.environment.nqueens.TowerAction;
 import aima.core.search.framework.SearchForActions;
 import aima.core.search.framework.problem.Problem;
 import aima.core.search.framework.qsearch.GraphSearch;
@@ -51,9 +51,9 @@ public class NQueensDemo {
 	private static void solveNQueensWithDepthFirstSearch() {
 		System.out.println("\n--- NQueensDemo DFS ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
-		SearchForActions<FourTowersBoard, QueenAction> search = new DepthFirstSearch<>(new TreeSearch<>());
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
+		SearchForActions<FourTowersBoard, TowerAction> search = new DepthFirstSearch<>(new TreeSearch<>());
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -62,9 +62,9 @@ public class NQueensDemo {
 	private static void solveNQueensWithBreadthFirstSearch() {
 		System.out.println("\n--- NQueensDemo BFS ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
-		SearchForActions<FourTowersBoard, QueenAction> search = new BreadthFirstSearch<>(new GraphSearch<>());
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
+		SearchForActions<FourTowersBoard, TowerAction> search = new BreadthFirstSearch<>(new GraphSearch<>());
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -73,11 +73,11 @@ public class NQueensDemo {
 	private static void solveNQueensWithAStarSearch() {
 		System.out.println("\n--- NQueensDemo A* (complete state formulation, graph search 3e) ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createCompleteStateFormulationProblem
-				(boardSize, Config.QUEENS_IN_FIRST_ROW);
-		SearchForActions<FourTowersBoard, QueenAction> search = new AStarSearch<>
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createCompleteStateFormulationProblem
+				(boardSize, Config.TOWERS_IN_FIRST_ROW);
+		SearchForActions<FourTowersBoard, TowerAction> search = new AStarSearch<>
 				(new GraphSearch<>(), FourTowersFunctions::getNumberOfAttackingPairs);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -86,11 +86,11 @@ public class NQueensDemo {
 	private static void solveNQueensWithAStarSearch4e() {
 		System.out.println("\n--- NQueensDemo A* (complete state formulation, graph search 4e) ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createCompleteStateFormulationProblem
-				(boardSize, Config.QUEENS_IN_FIRST_ROW);
-		SearchForActions<FourTowersBoard, QueenAction> search = new AStarSearch<>
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createCompleteStateFormulationProblem
+				(boardSize, Config.TOWERS_IN_FIRST_ROW);
+		SearchForActions<FourTowersBoard, TowerAction> search = new AStarSearch<>
 				(new GraphSearch4e<>(), FourTowersFunctions::getNumberOfAttackingPairs);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -99,9 +99,9 @@ public class NQueensDemo {
 	private static void solveNQueensWithRecursiveDLS() {
 		System.out.println("\n--- NQueensDemo recursive DLS ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
-		SearchForActions<FourTowersBoard, QueenAction> search = new DepthLimitedSearch<>(boardSize);
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
+		SearchForActions<FourTowersBoard, TowerAction> search = new DepthLimitedSearch<>(boardSize);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -110,9 +110,9 @@ public class NQueensDemo {
 	private static void solveNQueensWithIterativeDeepeningSearch() {
 		System.out.println("\n--- NQueensDemo Iterative DS ---");
 
-		Problem<FourTowersBoard, QueenAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
-		SearchForActions<FourTowersBoard, QueenAction> search = new IterativeDeepeningSearch<>();
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Problem<FourTowersBoard, TowerAction> problem = FourTowersFunctions.createIncrementalFormulationProblem(boardSize);
+		SearchForActions<FourTowersBoard, TowerAction> search = new IterativeDeepeningSearch<>();
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -121,12 +121,12 @@ public class NQueensDemo {
 	private static void solveNQueensWithSimulatedAnnealingSearch() {
 		System.out.println("\n--- NQueensDemo Simulated Annealing ---");
 
-		Problem<FourTowersBoard, QueenAction> problem =
-				FourTowersFunctions.createCompleteStateFormulationProblem(boardSize, Config.QUEENS_IN_FIRST_ROW);
-		SimulatedAnnealingSearch<FourTowersBoard, QueenAction> search =
+		Problem<FourTowersBoard, TowerAction> problem =
+				FourTowersFunctions.createCompleteStateFormulationProblem(boardSize, Config.TOWERS_IN_FIRST_ROW);
+		SimulatedAnnealingSearch<FourTowersBoard, TowerAction> search =
 				new SimulatedAnnealingSearch<>(FourTowersFunctions::getNumberOfAttackingPairs,
 						new Scheduler(20, 0.045, 100));
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
@@ -136,11 +136,11 @@ public class NQueensDemo {
 	private static void solveNQueensWithHillClimbingSearch() {
 		System.out.println("\n--- NQueensDemo HillClimbing ---");
 
-		Problem<FourTowersBoard, QueenAction> problem =
-				FourTowersFunctions.createCompleteStateFormulationProblem(boardSize, Config.QUEENS_IN_FIRST_ROW);
-		HillClimbingSearch<FourTowersBoard, QueenAction> search = new HillClimbingSearch<>
+		Problem<FourTowersBoard, TowerAction> problem =
+				FourTowersFunctions.createCompleteStateFormulationProblem(boardSize, Config.TOWERS_IN_FIRST_ROW);
+		HillClimbingSearch<FourTowersBoard, TowerAction> search = new HillClimbingSearch<>
 				(n -> -FourTowersFunctions.getNumberOfAttackingPairs(n));
-		Optional<List<QueenAction>> actions = search.findActions(problem);
+		Optional<List<TowerAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
 		System.out.println(search.getMetrics());
